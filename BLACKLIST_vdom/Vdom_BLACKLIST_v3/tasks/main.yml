@@ -1,0 +1,39 @@
+---
+- name: Copy script FWAddNewAddressBlacklist_v3.sh
+  copy:
+    dest: /tmp/FWAddNewAddressBlacklist_v3.sh
+    src: files/FWAddNewAddressBlacklist_v3.sh
+    mode: 0755
+
+- name: Copy script RunFWAddNewAddressBlacklist_v3.sh
+  copy:
+    dest: /tmp/RunFWAddNewAddressBlacklist_v3.sh
+    src: files/RunFWAddNewAddressBlacklist_v3.sh
+    mode: 0755
+
+- name: Add Ipaddress to BlackList
+  command: '/usr/bin/sh {{ ruta }}/{{ script }} {{ fw }} {{ address }} {{ login }} {{ password }} {{ vdom }}'
+  
+- name: Save result
+  command: 'cat {{ file }}'
+  register: outIps
+
+- name: Print added IP(s)
+  debug:
+    msg: "{{ outIps.stdout_lines }}"
+
+- name: Remove Temporal Script FWAddNewAddressBlacklist_v3.sh
+  file:
+    path: /tmp/FWAddNewAddressBlacklist_v3.sh
+    state: absent
+
+- name: Remove Temporal Script RunFWAddNewAddressBlacklist_v3.sh
+  file:
+    path: /tmp/RunFWAddNewAddressBlacklist_v3.sh
+    state: absent
+
+- name: Remove File Temporal address2
+  file:
+    path: /tmp/address2
+    state: absent
+...

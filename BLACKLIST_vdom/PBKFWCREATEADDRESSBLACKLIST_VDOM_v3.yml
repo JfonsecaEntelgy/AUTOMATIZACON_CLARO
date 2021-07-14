@@ -1,0 +1,15 @@
+- hosts: all
+  gather_facts: no
+  vars:
+   fw: "{{ host }}"
+   vdom: "{{ vdom }}"
+   login: "{{ login }}"
+   password: "{{ password }}"
+   address: "{{ addr }}"
+   ruta: "/tmp"
+   script: "RunFWAddNewAddressBlacklist_v3.sh"
+   file: "/tmp/address2"
+ 
+  roles:
+    - {role: Vdom_BLACKLIST_v3}
+...
